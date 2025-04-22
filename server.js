@@ -12,10 +12,20 @@ const wss = new WebSocket.Server({ server });
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/chatapp", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.czk4vgq.mongodb.net//chatapp?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("Successfully connected to MongoDB Atlas");
+  })
+  .catch((err) => {
+    console.error("Error connecting to MongoDB Atlas:", err);
+  });
 
 app.get("/messages", async (req, res) => {
   const messages = await Message.find().sort({ createdAt: -1 }).limit(20);
