@@ -1,15 +1,22 @@
 const express = require("express");
-const http = require("http");
+const https = require("https");
+const fs = require("fs");
 const WebSocket = require("ws");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Message = require("./models/Message");
 
 const app = express();
-const server = http.createServer(app);
+
+const options = {
+  key: fs.readFileSync("/etc/ssl/private/selfsigned.key"), // Use the path to your private key
+  cert: fs.readFileSync("/etc/ssl/certs/selfsigned.crt"), // Use the path to your certificate
+};
+
+const server = https.createServer(options, app);
+
 const wss = new WebSocket.Server({ server });
 
-const cors = require("cors");
 app.use(
   cors({
     origin: `https://${process.env.AMPLIFY_APP_ID}.amplifyapp.com`, // Set the Amplify URL
@@ -55,6 +62,6 @@ wss.on("connection", (ws) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log("Server listening on http://localhost:4000");
+server.listen(443, () => {
+  console.log("Server listening on https://localhost:443");
 });
