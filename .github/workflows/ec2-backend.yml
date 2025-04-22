@@ -17,6 +17,7 @@ jobs:
         run: |
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "AMPLIFY_APP_ID=${{ secrets.AMPLIFY_APP_ID }}" >> $GITHUB_ENV
 
       - name: Set up SSH
         run: |

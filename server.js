@@ -9,7 +9,13 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-app.use(cors());
+const cors = require("cors");
+app.use(
+  cors({
+    origin: `https://${process.env.AMPLIFY_APP_ID}.amplifyapp.com`, // Set the Amplify URL
+  })
+);
+
 app.use(express.json());
 
 mongoose
