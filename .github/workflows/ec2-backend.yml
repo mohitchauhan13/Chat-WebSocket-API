@@ -27,7 +27,7 @@ jobs:
 
       - name: Copy files to EC2
         run: |
-          rsync -avz --exclude node_modules --exclude .git ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ec2-user/chat-backend
+          rsync -avz -e "ssh -i ~/.ssh/id_rsa" --exclude node_modules --exclude .git ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ec2-user/chat-backend
 
       - name: SSH into EC2 and deploy
         run: |
